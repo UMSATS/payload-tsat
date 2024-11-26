@@ -5,91 +5,71 @@
  *      Author: Jascha Petersen
  */
 
-#include "main.h"
-#include "power.h"
-
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stddef.h>
 
-#define BLOCK_COUNTER_ADDRESS 0x08000000
-#define BLOCK_START_ADDRESS   0x08000001
-#define BLOCK_END_ADDRESS     0x08100000
-#define BLOCK_SIZE 32
+#include "main.h"
 
-size_t current_block = 0;
-uint8_t block_buffer[BLOCK_SIZE];
+#define FLASH_MEMORY_START 	0x08000000
+#define FLASH_MEMORY_END  	0x08080000
 
-// output ports: 2 bytes
-// temperatures: 16 bytes
-// active states: 16 bytes
+#define FLASH_PAGE_SIZE		0x800
+#define FLASH_DWORD_SIZE	0x8
 
-// Boundaries of the available flash memory
-#define FLASH_BOUNDARY_MIN_ADDR 		0x08000000
-#define FLASH_BOUNDARY_MAX_ADDR 		0x08080000
+#define FLASH_PREAMBLE		0xDEADBEEF
 
-#define FLASH_WELL_TEMP_STRUCT_ADDR  	0x08040000
-#define FLASH_LED_STATUS_STRUCT_ADDR	0x08040100
+typedef struct Flash_Page_Data {
+	uint32_t preamble;
+	uint32_t write_count;
+};
 
-typedef struct WELL_TEMP_STRUCT {
-	/*
-	 * Array of 16 ints with temperature goal in celsius for each well.
-	 * -1 means that well is OFF and no temperature regulation is happening.
-	 * */
-	int8_t temperatures[16];
-
-} Flash_Well_Temperatures;
-
-typedef struct LED_STATUS_STRUCT {
-	/*
-	 * Array of 16 uints. 1 is LED on, 0 is LED off.
-	 * These are separate rather than 1 uint16 so they can be invidiually addressed.
-	 */
-	uint8_t leds[16];
-
-} Flash_LED_Status;
-
-/*
- * Takes the raw data from each port of a TCA9539 and writes it to flash
- */
-bool Flash_Write_LED_Status(int id, uint8_t d1p1, uint8_t d1p2, uint8_t d2p1, uint8_t d2p2) {
-
-	Flash_LED_Status leds;
-
-	HAL_FLASH_Unlock();
-
-//	HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, FLASH_LED_STATUS_STRUCT_ADDR + (id * sizeof(uint8_t)), (uint8_t)status);
-
-	HAL_FLASH_Lock();
-
-	return true;
+void flash_init(size_t size) {
+	return;
 }
 
-Power Flash_Read_LED_Status(int id) {
+void flash_write(uint8_t page, const void* data, size_t size) {
 
-	Power* addr;
-	addr = (Power*) (FLASH_LED_STATUS_STRUCT_ADDR + (id * sizeof(Power)));
+	// TODO: preconditions (page no, data size must be less than 2kB, etc)
 
-	return *addr;
-}
+	const uint8_t* byte_data = (const uint8_t*)data;
 
-bool Flash_Write_Well_Temperature(int id, uint8_t temp) {
+	flash_erase(page);
 
-	HAL_FLASH_Unlock();
-	HAL_FLASH_Program(FLASH_TYPEPROGRAM_FAST, FLASH_WELL_TEMP_STRUCT_ADDR + (id * sizeof(int8_t)), temp);
-	HAL_FLASH_Lock();
+	uint32_t current_address = page * FLASH_PAGE_SIZE;
 
-	if (HAL_FLASH_GetError() != HAL_FLASH_ERROR_NONE) {
-	    // Handle error
+	uint64_t dword_buffer = 0;
+	uint8_t byte_index = 0;
+
+	for (size_t i = 0; i < size; i++) {
+
+		dword_buffer |= ((uint32_t)byte_data[i]) << (byte_index * 8);
+		byte_index++;
+
+		if (byte_index == FLASH_DWORD_SIZE || i == size - 1) {
+			if (HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, current_address, dword_buffer) != HAL_OK) {
+				return -1;
+			}
+
+			current_address += FLASH_DWORD_SIZE;
+			dword_buffer = 0;
+			byte_index = 0;
+		}
+
 	}
 
-	return true;
+
+
 }
 
-int8_t Flash_Read_Well_Temperature(int id) {
+void flash_read(uint8_t page, void* data, size_t size) {
 
-	uint8_t* addr;
-	addr = (uint8_t*) (FLASH_WELL_TEMP_STRUCT_ADDR + (id * sizeof(int8_t)));
+}
 
-	return *addr;
+void flash_erase(uint8_t page) {
+
+	FLASH_EraseInitTypeDef EraseInitStruct;
+	EraseInitStruct.TypeErase = FLASH_TYPEERASE_MASSERASE;
+	EraseInitStruct.Banks = FLASH_BANK_1; // only 1 bank on this chip
 
 }
