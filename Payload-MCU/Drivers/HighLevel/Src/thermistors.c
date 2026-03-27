@@ -24,6 +24,10 @@
 static const uint32_t TIMEOUT = 100; // in ms
 
 static const uint16_t ADC_MAX_OUTPUT = 4095;
+static const uint16_t REFERENCE_RESISTANCE = 10000; // Ohms
+static const uint16_t THERMISTOR_BETA = 3892; // Beta parameter
+static const uint16_t THERMISTOR_R0 = 10000; // Ohms - resistance at reference temperature
+static const double REFERENCE_TEMP = 298.15; // Kelvin
 
 static const MuxADCLocation ADC_LOCATIONS[] = {
 		{ MUX_CHANNEL_3, ADC_A0 }, // THERM 0
@@ -46,7 +50,7 @@ static const MuxADCLocation ADC_LOCATIONS[] = {
 
 #define PRINT_SUBJECT "Thermistors"
 
-bool Thermistors_Get_Temp(WellID well_id, uint16_t *out)
+bool Thermistors_Get_ADC_Count(WellID well_id, uint16_t *out)
 {
 	ASSERT(WELL_0 <= well_id && well_id <= WELL_15, "invalid well id: %d.", well_id);
 
@@ -76,9 +80,9 @@ bool Thermistors_Get_Temp(WellID well_id, uint16_t *out)
 		return false;
 	}
 
-	uint16_t temp = BE_To_Native_16(data); // convert from BE to LE.
+	uint16_t count = BE_To_Native_16(data); // convert from BE to LE.
 
-	*out = temp;
+	*out = count;
 
 	return true;
 }
@@ -87,10 +91,22 @@ bool Thermistors_Get_Temp_Celsius(WellID well_id, double *out)
 {
 	bool success;
 
-	uint16_t adc_value;
-	success = Thermistors_Get_Temp(well_id, &adc_value);
+	uint16_t adc_count;
+	success = Thermistors_Get_ADC_Count(well_id, &adc_count);
 
-	double normalised_value = (double)adc_value / (double)ADC_MAX_OUTPUT;
+	if (!success)
+		return false;
 
-	return success;
+	if (adc_count <= 0 || adc_count >= ADC_MAX_OUTPUT)
+		return false;
+
+	// Use voltage divider to calculate thermistor resistance
+	double ref_voltage = (double)adc_count / ADC_MAX_OUTPUT;
+	double therm_resistance = REFERENCE_RESISTANCE * (1 / ref_voltage - 1);
+
+	// Use Beta parameter equation to calculate temperature
+	double inverse_temp = 1.0 / REFERENCE_TEMP + (1.0 / THERMISTOR_BETA) * log(therm_resistance / THERMISTOR_R0);
+	*out = 1 / inverse_temp - 273.15;
+
+	return true;
 }

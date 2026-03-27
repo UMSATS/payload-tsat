@@ -20,7 +20,7 @@
  * @param out 		Where to store the raw reading from an MCP3221 ADC unit.
  * @return 			true on success. false on error.
  */
-bool Thermistors_Get_Temp(WellID well_id, uint16_t *out);
+bool Thermistors_Get_ADC_Count(WellID well_id, uint16_t *out);
 
 /**
  * @brief 	Reads the current temperature of a well in degrees celsius.
