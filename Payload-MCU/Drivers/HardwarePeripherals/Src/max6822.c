@@ -7,7 +7,7 @@
  *  Purpose: The driver file for the Watchdog.
  */
 
-#include "gpio.h"
+#include "stm32l4xx_hal.h"
 
 void MAX6822_Reset_Timer()
 {

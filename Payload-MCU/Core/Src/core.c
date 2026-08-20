@@ -5,7 +5,6 @@
  *      Author: Logan Furedi
  */
 
-#include <can.h>
 #include <cmsis_gcc.h>
 #include <heaters.h>
 #include <leds.h>
@@ -22,7 +21,6 @@
 #include <sys/_stdint.h>
 #include <tca9539.h>
 #include <thermistors.h>
-#include <tim.h>
 #include <tmp235.h>
 #include <well_id.h>
 #include "core.h"

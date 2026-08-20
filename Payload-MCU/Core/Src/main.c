@@ -22,6 +22,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "core.h"
 #include <stdio.h>
 #include "tuk/debug/print.h"

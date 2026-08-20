@@ -7,11 +7,13 @@
  *  Purpose: this is the driver file for the TCA9539 IO expander IC.
  */
 
-#include "tuk/debug/print.h"
 #include "tca9539.h"
+
+#include <stdint.h>
+
 #include "power.h"
-#include "assert.h"
-#include "i2c.h"
+#include "tuk/debug/print.h"
+#include "tuk/debug/assert.h"
 
 static const uint32_t TIMEOUT = 100;
 
@@ -192,8 +194,8 @@ static bool set_port(ExpanderID device, PortID port, uint8_t bitmap)
  */
 static bool check_params(ExpanderID device, ExpanderPinID pin)
 {
-	ASSERT(device == EXPANDER_1 || device == EXPANDER_2, "invalid device id: %d.", device);
-	ASSERT(pin >= EXPANDER_PIN_0 && pin <= EXPANDER_PIN_17, "invalid pin id: %d.", pin);
+	//ASSERT(device == EXPANDER_1 || device == EXPANDER_2, "invalid device id: %d.", device); TODO FIX ASSERT NOW!!!
+	//ASSERT(pin >= EXPANDER_PIN_0 && pin <= EXPANDER_PIN_17, "invalid pin id: %d.", pin);
 
 	if (device != EXPANDER_1 && device != EXPANDER_2)
 	{

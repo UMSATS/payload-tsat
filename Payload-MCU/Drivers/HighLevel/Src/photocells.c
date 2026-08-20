@@ -12,8 +12,6 @@
 #include "assert.h"
 #include "tuk/tuk.h"
 
-#include "i2c.h"
-
 #include <stdint.h>
 #include <stdbool.h>
 

@@ -7,7 +7,6 @@
 
 #include "tmp235.h"
 #include "assert.h"
-#include "adc.h"
 
 #include <stdint.h>
 #include <stdbool.h>

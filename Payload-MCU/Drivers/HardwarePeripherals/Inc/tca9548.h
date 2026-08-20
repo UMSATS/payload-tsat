@@ -12,6 +12,10 @@
 
 #include <stdbool.h>
 
+#include "stm32l4xx_hal_i2c.h"
+
+extern I2C_HandleTypeDef hi2c1;
+
 typedef enum {
 	MUX_CHANNEL_0 = 0,
 	MUX_CHANNEL_1,

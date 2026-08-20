@@ -8,12 +8,11 @@
  */
 
 #include "tca9548.h"
-#include "assert.h"
-
-#include "i2c.h"
 
 #include <stdint.h>
 #include <stdbool.h>
+
+#include "tuk/debug/assert.h"
 #include "tuk/debug/print.h"
 
 static const uint16_t I2C_ADDRESS = 0x70 << 1;  // I2C address of the multiplexer
@@ -23,7 +22,7 @@ static const uint32_t TIMEOUT = 100;       // in ms
 
 bool TCA9548_Set_I2C_Channel(MuxChannel channel)
 {
-	ASSERT(MUX_CHANNEL_0 <= channel && channel <= MUX_CHANNEL_5, "invalid mux channel: %d.", channel);
+	//ASSERT(MUX_CHANNEL_0 <= channel && channel <= MUX_CHANNEL_5, "invalid mux channel: %d.", channel); TODO FIX ASSERT!!!
 
 	if (channel < MUX_CHANNEL_0 || channel > MUX_CHANNEL_5)
 	{

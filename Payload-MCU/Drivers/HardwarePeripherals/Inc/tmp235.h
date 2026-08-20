@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#include "stm32l4xx_hal_adc.h"
+
+extern ADC_HandleTypeDef hadc1;
+
 /**
  * @brief Gets a temperature reading from the on-board temperature sensor IC.
  *
