@@ -27,7 +27,7 @@
 
 #include "core.h"
 #include <stdio.h>
-#include "tuk/debug/print.h"
+#include "tuk/tuk.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

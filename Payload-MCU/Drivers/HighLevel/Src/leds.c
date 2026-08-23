@@ -12,6 +12,7 @@
 
 #include <stdbool.h>
 #include "tuk/debug/print.h"
+#include "tuk/debug/assert.h"
 
 static const ExpanderPinLocation LED_LOCATIONS[] = {
 		{ EXPANDER_1, EXPANDER_PIN_2  }, // LED 0
@@ -36,7 +37,7 @@ static const ExpanderPinLocation LED_LOCATIONS[] = {
 
 bool LEDs_Set_LED(WellID well_id, Power power)
 {
-	ASSERT(WELL_0 <= well_id && well_id <= WELL_15, "invalid well id: %d.", well_id);
+	ASSERT(WELL_0 <= well_id && well_id <= WELL_15);
 
 	if (well_id < WELL_0 || well_id > WELL_15)
 	{

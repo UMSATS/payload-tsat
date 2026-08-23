@@ -22,7 +22,7 @@ static const uint32_t TIMEOUT = 100;       // in ms
 
 bool TCA9548_Set_I2C_Channel(MuxChannel channel)
 {
-	//ASSERT(MUX_CHANNEL_0 <= channel && channel <= MUX_CHANNEL_5, "invalid mux channel: %d.", channel); TODO FIX ASSERT!!!
+	ASSERT(MUX_CHANNEL_0 <= channel && channel <= MUX_CHANNEL_5);
 
 	if (channel < MUX_CHANNEL_0 || channel > MUX_CHANNEL_5)
 	{
