@@ -25,9 +25,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <tuk/tuk.h>
+
 #include "core.h"
-#include <stdio.h>
-#include "tuk/tuk.h"
+#include "command_handling.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,6 +63,11 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for canQueue */
+osMessageQueueId_t canQueueHandle;
+const osMessageQueueAttr_t canQueue_attributes = {
+  .name = "canQueue"
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -77,8 +83,6 @@ static void MX_TIM16_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
-static void on_message_received(const CAN_HandleTypeDef *hcan, const CANMessage *msg);
-static void on_error_occurred(const CANWrapper_ErrorInfo *error);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -152,6 +156,10 @@ int main(void)
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of canQueue */
+  canQueueHandle = osMessageQueueNew (100, sizeof(CANMessage), &canQueue_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -163,9 +171,9 @@ int main(void)
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   const CANWrapper_InitTypeDef cw_init = {
-  		.node_id = NODE_ADCS,    // your subsystem's unique ID in the CAN network.
-  		.message_callback = &on_message_received, // called when a message is received and ready to be handled.
-  		.error_callback = &on_error_occurred      // called when a communication error occurs.
+  		.node_id = NODE_PAYLOAD,    // your subsystem's unique ID in the CAN network.
+  		.message_callback = On_CAN_Message_Ready, // called when a message is received and ready to be handled.
+  		.error_callback = On_CAN_Error      // called when a communication error occurs.
   };
   CANWrapper_CAN_Start(&hcan1);
   CANWrapper_Init(&cw_init);
@@ -502,27 +510,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 #undef PRINT_SUBJECT
 #define PRINT_SUBJECT "HAL"
-
-
-// #################################################################################
-// ############################ CAN MESSAGE ON REVEIVED ############################
-// #################################################################################
-
-void on_message_received(const CAN_HandleTypeDef *hcan, const CANMessage *msg)
-{
-	// TODO: Add CAN message reception here
-}
-
-
-// ##############################################################################
-// ############################ CAN ERROR MANAGEMENT ############################
-// ##############################################################################
-
-void on_error_occurred(const CANWrapper_ErrorInfo *error)
-{
-	// TODO: Add CAN error handling here
-}
-
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
