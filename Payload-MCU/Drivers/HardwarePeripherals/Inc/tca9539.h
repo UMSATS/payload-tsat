@@ -10,10 +10,11 @@
 #ifndef HARDWAREPERIPHERALS_INC_TCA9539_H_
 #define HARDWAREPERIPHERALS_INC_TCA9539_H_
 
+#include "stm32l4xx_hal.h"
+
 #include <stdbool.h>
 
 #include "power.h"
-#include "stm32l4xx_hal_i2c.h"
 
 extern I2C_HandleTypeDef hi2c1;
 

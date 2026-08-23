@@ -5,6 +5,7 @@
  *      Author: Logan Furedi, Jacob Petersen
  */
 
+#include "stm32l4xx_hal.h"
 #include "tmp235.h"
 
 #include <stdint.h>

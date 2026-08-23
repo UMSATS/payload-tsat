@@ -7,6 +7,7 @@
  *  Purpose: This is the driver file for the I2C multiplexer, part # TCA9548.
  */
 
+#include "stm32l4xx_hal.h"
 #include "tca9548.h"
 
 #include <stdint.h>

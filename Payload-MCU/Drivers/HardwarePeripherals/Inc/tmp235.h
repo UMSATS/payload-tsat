@@ -8,10 +8,10 @@
 #ifndef HARDWAREPERIPHERALS_INC_TMP235_H_
 #define HARDWAREPERIPHERALS_INC_TMP235_H_
 
+#include "stm32l4xx_hal.h"
+
 #include <stdint.h>
 #include <stdbool.h>
-
-#include "stm32l4xx_hal_adc.h"
 
 extern ADC_HandleTypeDef hadc1;
 

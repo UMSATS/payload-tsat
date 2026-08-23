@@ -5,25 +5,29 @@
  *      Author: Logan Furedi
  */
 
-#include <cmsis_gcc.h>
-#include <heaters.h>
-#include <leds.h>
-#include <max6822.h>
-#include <photocells.h>
-#include <power.h>
+#include <stm32l452xx.h>
+#include "core.h"
+
+// Standard Libraries
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
-#include <stm32l452xx.h>
-#include <stm32l4xx_hal_def.h>
-#include <stm32l4xx_hal_tim.h>
 #include <string.h>
 #include <sys/_stdint.h>
-#include <tca9539.h>
+
+// High Level Drivers
+#include <heaters.h>
+#include <leds.h>
+#include <photocells.h>
+#include <power.h>
 #include <thermistors.h>
-#include <tmp235.h>
 #include <well_id.h>
-#include "core.h"
+
+// Hardware Peripheral Drivers
+#include <MAX6822_driver.h>
+#include <tca9539.h>
+#include <tmp235.h>
+
 #include "tuk/tuk.h"
 
 typedef enum {

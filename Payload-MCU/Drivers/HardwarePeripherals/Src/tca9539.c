@@ -7,6 +7,7 @@
  *  Purpose: this is the driver file for the TCA9539 IO expander IC.
  */
 
+#include "stm32l4xx_hal.h"
 #include "tca9539.h"
 
 #include <stdint.h>
