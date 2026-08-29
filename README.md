@@ -1,5 +1,5 @@
 ## Setup
-To set up the project you must also have the tsat-utilities-kit repository cloned and positioned in the correct directory locations so that the project linker can find the library.
+To set up the project you must also have the [tsat-utilities-kit](https://github.com/UMSATS/tsat-utilities-kit) repository cloned and positioned in the correct directory locations so that the project linker can find the library.
 
 Use the git command `git clone <repository_url>` to clone the Payload and [TUK](https://github.com/UMSATS/tsat-utilities-kit) repos in the desired workspace for UMSATS projects or use the github desktop app UI to achieve the same result.
 
