@@ -50,7 +50,7 @@ void On_CAN_Error(const CANWrapper_ErrorInfo *error)
 
 
 
-// TODO Look through old message received and determine what to keep
+// TODO Look through old message received and determine what to keep.Maybe make into RTOS tasks.
 //static void on_message_received(CANMessage msg, NodeID sender, bool is_ack)
 //{
 //	LogBuffer buffer; // stores debug information.

@@ -25,13 +25,6 @@ bool TCA9548_Set_I2C_Channel(MuxChannel channel)
 {
 	ASSERT(MUX_CHANNEL_0 <= channel && channel <= MUX_CHANNEL_5);
 
-	if (channel < MUX_CHANNEL_0 || channel > MUX_CHANNEL_5)
-	{
-		PRINT_ERROR("invalid mux channel: %d.", channel);
-		//PUT_ERROR(ERR_PLD_TCA9548_INVALID_CHANNEL);
-		return false;
-	}
-
 	// create an array of 1 byte and copy the value in channel_number
 	uint8_t command_register[1] = {1 << channel};
 

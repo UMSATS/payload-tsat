@@ -39,8 +39,6 @@ static State s_state = IDLE;
 static uint8_t s_temp_sequence = 0;
 static uint8_t s_light_sequence = 0;
 
-static void on_message_received(CANMessage msg, NodeID sender, bool is_ack);
-static void on_error_occured(CANWrapper_ErrorInfo error);
 static void report_well_temp_data(WellID well_id);
 static void report_well_light_data(WellID well_id);
 //static void process_errors(ErrorBuffer *p_error_buffer);
@@ -67,6 +65,7 @@ void Core_Init()
 */
 }
 
+// TODO Make into RTOS TASK
 // callback for timers.
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -92,7 +91,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 }
 
 
-
+// TODO Make into RTOS TASK
 // function to get temperature data, package it and send it through CAN
 static void report_well_temp_data(WellID well_id)
 {
@@ -119,6 +118,7 @@ static void report_well_temp_data(WellID well_id)
 //	CANWrapper_Transmit(NODE_CDH, &msg);
 }
 
+// TODO Make into RTOS TASK
 // function to get light level data, package it and send it through CAN
 static void report_well_light_data(WellID well_id)
 {
@@ -161,6 +161,7 @@ static void process_errors(ErrorBuffer *p_error_buffer)
 }
 */
 
+// TODO Make into RTOS TASK
 static void print_well_info()
 {
 	uint16_t therm_data[16];

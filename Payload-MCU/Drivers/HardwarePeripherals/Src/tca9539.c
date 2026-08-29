@@ -61,8 +61,6 @@ bool TCA9539_Init()
 
 int TCA9539_Get_Pin(ExpanderID device, ExpanderPinID pin)
 {
-	if (!check_params(device, pin))
-		return -1;
 
 	int port = pin / 8; // 0 or 1.
 
@@ -83,8 +81,6 @@ int TCA9539_Get_Pin(ExpanderID device, ExpanderPinID pin)
 
 bool TCA9539_Set_Pin(ExpanderID device, ExpanderPinID pin, Power power)
 {
-	if (!check_params(device, pin))
-		return false;
 
 	int port = pin / 8; // 0 or 1.
 
@@ -185,33 +181,5 @@ static bool set_port(ExpanderID device, PortID port, uint8_t bitmap)
 
 //	Flash_Write(OUTPUT_PORT_OFFSET, &bitmap, 1);
 
-	return true;
-}
-
-/**
- * @brief Ensures the device, port, and pin numbers are valid.
- *
- * @return true if valid. false otherwise.
- */
-static bool check_params(ExpanderID device, ExpanderPinID pin)
-{
-	ASSERT(device == EXPANDER_1 || device == EXPANDER_2);
-	ASSERT(pin >= EXPANDER_PIN_0 && pin <= EXPANDER_PIN_17);
-
-	if (device != EXPANDER_1 && device != EXPANDER_2)
-	{
-		PRINT_ERROR("invalid device: %d.", device);
-		//PUT_ERROR(ERR_PLD_TCA9539_INVALID_EXPANDER_ID);
-		return false;
-	}
-
-	if (pin < EXPANDER_PIN_0 || pin > EXPANDER_PIN_17)
-	{
-		PRINT_ERROR("invalid pin: %d.", pin);
-		//PUT_ERROR(ERR_PLD_TCA9539_INVALID_EXPANDER_PIN_ID);
-		return false;
-	}
-
-	// all checks passed.
 	return true;
 }
