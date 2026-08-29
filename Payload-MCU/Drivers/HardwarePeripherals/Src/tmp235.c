@@ -5,12 +5,13 @@
  *      Author: Logan Furedi, Jacob Petersen
  */
 
+#include "stm32l4xx_hal.h"
 #include "tmp235.h"
-#include "assert.h"
-#include "adc.h"
 
 #include <stdint.h>
 #include <stdbool.h>
+
+#include "tuk/debug/assert.h"
 #include "tuk/debug/print.h"
 
 static const uint32_t TIMEOUT = 100; // in ms

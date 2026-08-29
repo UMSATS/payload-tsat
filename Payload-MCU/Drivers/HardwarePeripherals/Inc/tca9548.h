@@ -10,7 +10,11 @@
 #ifndef HARDWAREPERIPHERALS_INC_TCA9548_H_
 #define HARDWAREPERIPHERALS_INC_TCA9548_H_
 
+#include "stm32l4xx_hal.h"
+
 #include <stdbool.h>
+
+extern I2C_HandleTypeDef hi2c1;
 
 typedef enum {
 	MUX_CHANNEL_0 = 0,

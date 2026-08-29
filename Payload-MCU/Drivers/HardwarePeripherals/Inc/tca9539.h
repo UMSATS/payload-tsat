@@ -10,9 +10,13 @@
 #ifndef HARDWAREPERIPHERALS_INC_TCA9539_H_
 #define HARDWAREPERIPHERALS_INC_TCA9539_H_
 
-#include "power.h"
+#include "stm32l4xx_hal.h"
 
 #include <stdbool.h>
+
+#include "power.h"
+
+extern I2C_HandleTypeDef hi2c1;
 
 typedef enum
 {

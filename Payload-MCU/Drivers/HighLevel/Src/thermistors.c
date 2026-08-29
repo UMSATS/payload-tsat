@@ -16,8 +16,6 @@
 #include "power.h"
 #include "tca9539.h"
 
-#include "i2c.h"
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -48,7 +46,7 @@ static const MuxADCLocation ADC_LOCATIONS[] = {
 
 bool Thermistors_Get_Temp(WellID well_id, uint16_t *out)
 {
-	ASSERT(WELL_0 <= well_id && well_id <= WELL_15, "invalid well id: %d.", well_id);
+	ASSERT(WELL_0 <= well_id && well_id <= WELL_15);
 
 	if (well_id < WELL_0 || well_id > WELL_15)
 	{

@@ -13,6 +13,7 @@
 
 #include <stdbool.h>
 #include "tuk/debug/print.h"
+#include "tuk/debug/assert.h"
 
 static const ExpanderPinLocation HEATER_LOCATIONS[] = {
 		{ EXPANDER_1, EXPANDER_PIN_3  }, // HEATER 0
@@ -37,7 +38,7 @@ static const ExpanderPinLocation HEATER_LOCATIONS[] = {
 
 bool Heaters_Set_Heater(WellID well_id, Power power)
 {
-	ASSERT(WELL_0 <= well_id && well_id <= WELL_15, "invalid well id: %d.", well_id);
+	ASSERT(WELL_0 <= well_id && well_id <= WELL_15);
 
 	if (well_id < WELL_0 || well_id > WELL_15)
 	{

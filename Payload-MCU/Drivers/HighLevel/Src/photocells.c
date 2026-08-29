@@ -12,8 +12,6 @@
 #include "assert.h"
 #include "tuk/tuk.h"
 
-#include "i2c.h"
-
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -42,7 +40,7 @@ static const MuxADCLocation ADC_LOCATIONS[] = {
 
 bool Photocells_Get_Light_Level(WellID well_id, uint16_t *out)
 {
-	ASSERT(WELL_0 <= well_id && well_id <= WELL_15, "invalid well id: %d.", well_id);
+	ASSERT(WELL_0 <= well_id && well_id <= WELL_15);
 
 	if (well_id < WELL_0 || well_id > WELL_15)
 	{
